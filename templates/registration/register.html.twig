@@ -1,0 +1,48 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="container">
+        <div class="header_inner">
+            <div class="header_logo" >  Auction </div>
+            <nav class="nav">
+                <a class="nav_link" href="/register">Регистрация</a>
+                <a class="nav_link" href="/login">Войти</a>
+            </nav>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block main %}
+
+
+    {{ form_start(registrationForm, {
+        'attr': {'class':'form_reg'}}) }}
+        <div class="container2">
+            <h1>Поле регистрации</h1><hr>
+            {{ form_row(registrationForm.username, {
+                'attr': {'class':'poleinput'}
+            }) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password',
+                'attr': {'class':'poleinput'}
+            }) }}
+            {{ form_row(registrationForm.agreeTerms) }}
+
+            <button type="submit" class="registerbtn">Register</button>
+            <button type="button" class="registerbtn">Сбросить</button>
+        </div>
+    <hr>
+    {{ form_end(registrationForm) }}
+    <div class="container signin">
+        <p>Already have an account? <a href="">Sign in</a>.</p>
+    </div>
+{% endblock %}

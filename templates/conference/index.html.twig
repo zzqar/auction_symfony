@@ -1,0 +1,54 @@
+{% extends 'base.html.twig' %}
+
+{% block title %} {% endblock %}
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/tabel.css">
+    <link rel="stylesheet" href="/css/auction.css">
+{% endblock %}
+{% block main %}
+
+        <div class="intro"></div>
+        <div class="main">
+            <div class="contant">
+                <div class="contant_name">АУКЦИОН {{ user.getUsername() }}</div>
+                <hr>
+                <div class="btw_con">
+                    <button type="button" id ="buy-button"  class="btw_use"  >Добавить лот</button>
+                </div>
+
+            <div class="goods">
+                <ul class="products clearfix">
+                    {% for good in goods %}
+                        <li class="product-wrapper">
+                            <a href="/good/view/{{good.id}}" class="product">
+                                <div class="product-photo">
+                                    <img src="/images/no_icon.png" alt="">
+                                </div>
+                                <div class="soder">
+                                    <p class="name_goods">{{ good.name }}</p>
+                                    <p>{{ good.cost }} руб</p>
+                                </div>
+                                <div class="soder">
+                                    <p class=" ">Быстрый выкуп: </p>
+                                    <p>{{ good.costmax }}  руб </p>
+                                </div>
+                                <div class="soder">
+                                    <p class=" ">Окончание:</p>
+                                    <p>  д.   ч.</p>
+                                </div>
+                                <button type="button" class="btw_use  lot"  >Выкупить</button>
+                            </a>
+                        </li>
+                    {% endfor %}
+                </ul>
+            </div>
+            </div>
+        </div>
+
+
+
+
+
+
+
+{% endblock %}

@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Страница {{ good.name }}{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/goods_style.css">
+    <link rel="stylesheet" href="/css/popup.css">
+    <link rel="stylesheet" href="/css/tabel.css">
+{% endblock %}
+
+
+{% block main %}
+<div class="profil">
+    <div class="contant">
+        <div class="product-photo">
+            <img src="/images/no_icon.png" alt="">
+        </div>
+        <div class="inf_cont">
+            <div class="contant_name"> {{ good.name }}</div>
+
+            <div class="prof_inf">
+                <p class="">Начальная стоимость: </p>
+                <p>{{ good.cost }} руб</p>
+            </div>
+
+            <div class="prof_inf">
+                <p class="">Моментальный выкуп: </p>
+                <p>{{ good.costmax}}  руб</p>
+            </div>
+
+            <div class="prof_inf">
+                <p class="">Последняя ставка: </p>
+                <p> руб</p>
+            </div>
+
+            <div class="prof_inf">
+                <p class="">Дата окончания лота: </p>
+                <p>{{ good.datecreate|date('d-m-Y') }}</p>
+            </div>
+
+            <div class="prof_inf btw_con">
+
+                <a href="" class = "btw_box">Редактировать</a>
+                <a href="" class = "btw_box">Удалить</a>
+                <a  class = "btw_box  buy" id ="buy-button" >Сделать ставку</a>
+
+
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

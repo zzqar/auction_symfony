@@ -1,0 +1,53 @@
+* {box-sizing: border-box}
+.container2 {
+    padding: 16px;
+    width: 100%;
+    max-width: 1000px;
+    margin-top: 60px;
+    display: block;
+    margin-left: auto;
+    margin-right: auto 
+}
+
+.poleinput {
+  width: 100%;
+  padding: 15px;
+  margin: 5px 0 22px 0;
+  display: inline-block;
+  border: none;
+  background: #f1f1f1;
+}
+
+ 
+.signin {
+  background-color: #f1f1f1;
+  text-align: center;
+}
+
+.poleinput:focus {
+  background-color: #ddd;
+  outline: none;
+  
+}
+
+hr {
+  border: 1px solid #f1f1f1;
+  margin-bottom: 25px;
+}
+
+.registerbtn {
+  background-color: #577B91;
+  color: white;
+  padding: 16px 20px;
+  margin: 8px -1px;
+  border: none;
+  cursor: pointer;
+  width: 49.9%;
+  opacity:0.95;
+}
+
+.registerbtn:hover {
+  opacity:1; 
+}
+
+ 

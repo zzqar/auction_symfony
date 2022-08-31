@@ -1,0 +1,55 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Log in!{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+{% endblock %}
+
+{% block header %}
+<header class="header">
+    <div class="container">
+        <div class="header_inner">
+            <div class="header_logo" >  Auction </div>
+            <nav class="nav">
+                <a class="nav_link" href="/register">Регистрация</a>
+                <a class="nav_link" href="/login">Войти</a>
+            </nav>
+
+        </div>
+
+    </div>
+{% endblock %}
+
+{% block main %}
+    <form method="post" class="form_reg">
+         <div class="container2">
+            <h1>Авторизация</h1><hr>
+
+            <label for="inputUserName">User name</label>
+            <input type="text" value="{{ last_username }}" name="username" id="inputUserName" class="poleinput" required autofocus>
+            <label for="inputPassword">Password</label>
+            <input type="password" name="password" id="inputPassword" class="poleinput" required>
+            <input type="hidden" name="_csrf_token"
+                   value="{{ csrf_token('authenticate') }}"
+            >
+
+            {% if error %}
+                <p class="msg">{{ error.messageKey|trans(error.messageData, 'security') }}</p>
+            {% endif %}
+
+            {% if app.user %}
+                <p class="msg">
+                    You are logged in as {{ app.user.username }},<a href="{{ path('app_logout') }}"   > Logout.</a>
+                </p>
+
+            {% endif %}
+
+            <button class="registerbtn btn btn-lg btn-primary" type="submit"> Sign in </button>
+         </div>
+         <hr>
+    </form>
+    <div class="container signin">
+        <p>Already Dont have an account? <a href="/registr">reg</a>.</p>
+    </div>
+{% endblock %}

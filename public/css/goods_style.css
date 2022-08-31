@@ -1,0 +1,26 @@
+.btw_con {
+    justify-content: start;
+    
+    margin-top: 70px;
+}
+.btw_box {
+    margin-right:  10px;
+    text-decoration:none;
+    background-color: #414141;
+    display: inline-block;  
+    padding: 8px 5px;
+    border-radius: 6px;
+    color:#EFEFEF;
+    border: 0;
+    font-family: 'Montserrat', sans-serif;
+    transition: color .1s linear;
+    letter-spacing: 0 px;       
+}
+
+.btw_box:hover {
+    cursor: pointer;
+    color: rgb(36, 36, 36);
+    background-color: rgb(162, 161, 161);
+    
+     
+}
