@@ -16,8 +16,8 @@ class GoodViewController extends AbstractController
         $good = $hui->find($id);
 
         return $this->render('good_view/index.html.twig', [
-            'user' => $user,
             'good' => $good ,
+            'user' => $user,
         ]);
     }
 

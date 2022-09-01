@@ -13,7 +13,9 @@
                 <div class="contant_name">АУКЦИОН</div>
                 <hr>
                 <div class="btw_con">
-                    <button type="button" id ="buy-button"  class="btw_use"  >Добавить лот</button>
+                    <form action="/addGood" target="_blank">
+                        <button class="btw_use"  >Добавить лот</button>
+                    </form>
                 </div>
 
             <div class="goods">
@@ -34,9 +36,9 @@
                                 </div>
                                 <div class="soder">
                                     <p class=" ">Окончание:</p>
-                                    <p>  д.   ч.</p>
+                                    <p>{{ good.lastdate|date('d-m-Y') }}</p>
                                 </div>
-                                <button type="button" class="btw_use  lot"  >Выкупить</button>
+
                             </a>
                         </li>
                     {% endfor %}

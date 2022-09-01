@@ -1,0 +1,38 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Добавить товар{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+{% endblock %}
+
+
+
+{% block main %}
+
+    {{ form_start(goodForm, {
+        'attr': {'class':'form_reg'}}) }}
+    <div class="container2">
+        <h1>Добавить товар</h1><hr>
+        {{ form_row(goodForm.images, {
+            'attr': {'class':'poleinput'}
+        }) }}
+        {{ form_row(goodForm.name, {
+            'attr': {'class':'poleinput'}
+        }) }}
+        {{ form_row(goodForm.cost, {
+
+            'attr': {'class':'poleinput'}
+        }) }}
+
+
+        <button type="submit" class="registerbtn">Добавить</button>
+
+    </div>
+    <hr>
+    {{ form_end(goodForm) }}
+
+
+
+
+{% endblock %}

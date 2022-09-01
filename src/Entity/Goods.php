@@ -26,6 +26,12 @@ class Goods
     #[ORM\Column(length: 255)]
     private ?string $costmax = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $images = null;
+
+    #[ORM\Column(type: Types::DATE_MUTABLE, nullable: true)]
+    private ?\DateTimeInterface $last_date = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +81,30 @@ class Goods
     public function setCostmax(string $costmax): self
     {
         $this->costmax = $costmax;
+
+        return $this;
+    }
+
+    public function getImages(): ?string
+    {
+        return $this->images;
+    }
+
+    public function setImages(?string $images): self
+    {
+        $this->images = $images;
+
+        return $this;
+    }
+
+    public function getLastDate(): ?\DateTimeInterface
+    {
+        return $this->last_date;
+    }
+
+    public function setLastDate(?\DateTimeInterface $last_date): self
+    {
+        $this->last_date = $last_date;
 
         return $this;
     }
