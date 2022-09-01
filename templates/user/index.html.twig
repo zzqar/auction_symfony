@@ -1,0 +1,32 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Страница{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="/css/profile.css">
+    <link rel="stylesheet" href="/css/goods_style.css">
+    <link rel="stylesheet" href="/css/popup.css">
+
+{% endblock %}
+
+
+{% block main %}
+    <div class="profil">
+        <div class="contant">
+            <div class="product-photo">
+                <img src="/images/no_icon.png" alt="">
+            </div>
+            <div class="inf_cont">
+                <div class="contant_name"> {{ user.getUsername() }}</div>
+
+
+                <div class="prof_inf btw_con">
+
+
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}
