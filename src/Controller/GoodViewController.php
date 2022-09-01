@@ -12,10 +12,11 @@ class GoodViewController extends AbstractController
     #[Route('/good/view/{id}',methods: ['GET'] )]
     public function index(int $id, GoodsRepository $hui): Response
     {
-
+        $user = $this->getUser();
         $good = $hui->find($id);
 
         return $this->render('good_view/index.html.twig', [
+            'user' => $user,
             'good' => $good ,
         ]);
     }
