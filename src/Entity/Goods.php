@@ -66,9 +66,10 @@ class Goods
         return $this->date_create;
     }
 
-    public function setDateCreate(\DateTimeInterface $date_create): self
+    public function setDateCreate(): self
     {
-        $this->date_create = $date_create;
+
+        $this->date_create = new \DateTime();;
 
         return $this;
     }

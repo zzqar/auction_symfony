@@ -14,14 +14,15 @@
         'attr': {'class':'form_reg'}}) }}
     <div class="container2">
         <h1>Добавить товар</h1><hr>
-        {{ form_row(goodForm.images, {
-            'attr': {'class':'poleinput'}
-        }) }}
+
         {{ form_row(goodForm.name, {
             'attr': {'class':'poleinput'}
         }) }}
         {{ form_row(goodForm.cost, {
 
+            'attr': {'class':'poleinput'}
+        }) }}
+        {{ form_row(goodForm.last_date, {
             'attr': {'class':'poleinput'}
         }) }}
 
