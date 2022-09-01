@@ -17,7 +17,6 @@ class ConferenceController extends AbstractController
         $user = $this->getUser();
 
         return $this->render('conference/index.html.twig', [
-            'controller_name' => 'ConferenceController',
             'goods' =>  $goods,
             'user' => $user,
         ]);

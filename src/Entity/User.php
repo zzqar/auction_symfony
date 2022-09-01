@@ -30,10 +30,10 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     private ?string $password = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $balance = null;
+    private ?string $balance = '100000';
 
     #[ORM\Column(length: 255)]
-    private ?string $vir_balance = null;
+    private ?string $vir_balance = '100000';
 
     public function getId(): ?int
     {
