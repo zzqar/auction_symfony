@@ -29,6 +29,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $balance = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $vir_balance = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -97,5 +103,29 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
+    }
+
+    public function getBalance(): ?string
+    {
+        return $this->balance;
+    }
+
+    public function setBalance(string $balance): self
+    {
+        $this->balance = $balance;
+
+        return $this;
+    }
+
+    public function getVirBalance(): ?string
+    {
+        return $this->vir_balance;
+    }
+
+    public function setVirBalance(string $vir_balance): self
+    {
+        $this->vir_balance = $vir_balance;
+
+        return $this;
     }
 }
