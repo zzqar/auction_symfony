@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="/css/goods_style.css">
     <link rel="stylesheet" href="/css/popup.css">
     <link rel="stylesheet" href="/css/tabel.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 {% endblock %}
 
 
@@ -50,4 +51,19 @@
         </div>
     </div>
 </div>
+
+    {{ form_start(goodForm, {
+        'attr': {'class':'form_reg'}}) }}
+    <div class="container2">
+         <hr>
+        {{ form_row(goodForm.pay, {
+            'attr': {'class':'poleinput'}
+        }) }}
+
+
+        <button type="submit" class="registerbtn">Register</button>
+
+    </div>
+    <hr>
+    {{ form_end(goodForm) }}
 {% endblock %}
