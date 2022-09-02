@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\Goods;
 use App\Form\AddGoodType;
+use App\Repository\GoodsRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
@@ -13,7 +14,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class AddGoodController extends AbstractController
 {
     #[Route('/addGood', name: 'app_add_good')]
-    public function index(Request $request, EntityManagerInterface $entityManager): Response
+    public function index(Request $request,GoodsRepository $goodsRepository): Response
     {
         $user = $this->getUser();
         $good = new Goods();
@@ -28,8 +29,8 @@ class AddGoodController extends AbstractController
             $good->setDateCreate();
             $good->setCostmax($good->getCost());
             $a = 1 + 3;
-            $entityManager->persist($good);
-            $entityManager->flush();
+
+            $goodsRepository->add($good,true);
         }
 
 
