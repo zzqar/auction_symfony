@@ -20,12 +20,16 @@ class Transaction
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $total = null;
 
-    #[ORM\Column(type: Types::DATE_MUTABLE)]
+    #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user_id = null;
+
+    #[ORM\ManyToOne(inversedBy: 'transactions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?goods $good_id = null;
 
     public function getId(): ?int
     {
@@ -63,7 +67,7 @@ class Transaction
 
     public function setDate(\DateTimeInterface $date): self
     {
-        $this->date = $date;
+        $this->date = new \DateTime();
 
         return $this;
     }
@@ -76,6 +80,18 @@ class Transaction
     public function setUserId(?User $user_id): self
     {
         $this->user_id = $user_id;
+
+        return $this;
+    }
+
+    public function getGoodId(): ?goods
+    {
+        return $this->good_id;
+    }
+
+    public function setGoodId(?goods $good_id): self
+    {
+        $this->good_id = $good_id;
 
         return $this;
     }
