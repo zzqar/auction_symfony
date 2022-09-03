@@ -5,6 +5,7 @@ namespace App\Repository;
 use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
+use phpDocumentor\Reflection\Types\Integer;
 
 /**
  * @extends ServiceEntityRepository<Transaction>
@@ -39,20 +40,26 @@ class TransactionRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Transaction[] Returns an array of Transaction objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('t')
-//            ->andWhere('t.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('t.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+    /**
+     * @param $good
+     * @return string Returns an array of Transaction objects
+     */
+    public function findByMaxBetForGood($good): string
+    {
+
+        $b =  $this->createQueryBuilder('t')
+            ->Select('MAX(t.total)')
+            ->andWhere('t.good_id = :good')
+            ->setParameter('good', $good)
+
+            ->getQuery()
+
+            ->getResult()
+
+        ;
+
+        return  $b[0][1];
+    }
 
 //    public function findOneBySomeField($value): ?Transaction
 //    {

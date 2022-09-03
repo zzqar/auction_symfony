@@ -29,7 +29,7 @@ class Transaction
 
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?goods $good_id = null;
+    private ?Goods $good_id = null;
 
     public function getId(): ?int
     {
@@ -65,7 +65,7 @@ class Transaction
         return $this->date;
     }
 
-    public function setDate(\DateTimeInterface $date): self
+    public function setDate(): self
     {
         $this->date = new \DateTime();
 
@@ -84,12 +84,12 @@ class Transaction
         return $this;
     }
 
-    public function getGoodId(): ?goods
+    public function getGoodId(): ?Goods
     {
         return $this->good_id;
     }
 
-    public function setGoodId(?goods $good_id): self
+    public function setGoodId(?Goods $good_id): self
     {
         $this->good_id = $good_id;
 

@@ -115,6 +115,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         // $this->plainPassword = null;
     }
 
+    /**
+     * @see UserInterface
+     */
     public function getBalance(): ?string
     {
         return $this->balance;
@@ -126,7 +129,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
         return $this;
     }
-
+    /**
+     * @see UserInterface
+     */
     public function getVirBalance(): ?string
     {
         return $this->vir_balance;
