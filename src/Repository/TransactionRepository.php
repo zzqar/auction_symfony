@@ -61,6 +61,28 @@ class TransactionRepository extends ServiceEntityRepository
         return  $b[0][1];
     }
 
+    /**
+     * @param $good
+     * @return string Returns an array of Transaction objects
+     */
+    public function findByMaxBetForGoodAndUser($good, $user ): string
+    {
+
+        $b =  $this->createQueryBuilder('t')
+            ->Select('MAX(t.total)')
+            ->andWhere('t.good_id = :good and t.user_id = :user')
+
+            ->setParameter('good', $good)
+            ->setParameter('user', $user->getId())
+            ->getQuery()
+
+            ->getResult()
+
+        ;
+
+        return  $b[0][1];
+    }
+
 //    public function findOneBySomeField($value): ?Transaction
 //    {
 //        return $this->createQueryBuilder('t')
