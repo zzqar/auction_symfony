@@ -27,8 +27,7 @@ class AddGoodController extends AbstractController
             $good->setImages('/images/no_icon.png');
 
             $good->setDateCreate();
-            $good->setCostmax($good->getCost());
-            $a = 1 + 3;
+            $good->setCostmax($good->getCost()*10);
 
             $goodsRepository->add($good,true);
         }

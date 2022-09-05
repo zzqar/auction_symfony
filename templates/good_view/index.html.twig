@@ -32,7 +32,7 @@
 
             <div class="prof_inf">
                 <p class="">Последняя ставка: </p>
-                <p> руб</p>
+                <p>{{ lastBet }} руб</p>
             </div>
 
             <div class="prof_inf">
@@ -51,7 +51,9 @@
         </div>
     </div>
 </div>
-
+{% if msg %}
+    <p class="msg">Товар выкуплен пользователем: {{ msg.username }}</p>
+{% else %}
     {{ form_start(goodForm, {
         'attr': {'class':'form_reg'}}) }}
     <div class="container2">
@@ -59,11 +61,14 @@
         {{ form_row(goodForm.pay, {
             'attr': {'class':'poleinput'}
         }) }}
-
+        {% if error %}
+            <p class="msg">{{ error }}</p>
+        {% endif %}
 
         <button type="submit" class="registerbtn">Register</button>
 
     </div>
     <hr>
     {{ form_end(goodForm) }}
+{% endif %}
 {% endblock %}

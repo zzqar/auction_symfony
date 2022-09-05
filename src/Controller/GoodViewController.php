@@ -23,58 +23,83 @@ class GoodViewController extends AbstractController
     {
         $user = $this->getUser();
         $good = $hui->find($id);
+        $lastTransaction = $addTr->findOneBy([
+            'good_id' => $id,
+            'status' => '1'
+        ]);
+        $lastUser = New User();
         $error = Null;
+        $msg = $good->getUser();
 
         $transaction = new Transaction();
         $form = $this->createForm(AddNewBetType::class, $transaction);
         $form->handleRequest($request);
 
+        //Находим Максимальную ставку По товару : общую/пользователя
+        $MaxBet = $addTr->findByMaxBetForGood($id);
+
         if ($form->isSubmitted() && $form->isValid())
+
         {
             //Сумма из формы
             $pay = $form->get('pay');
 
-            //Находим Максимальную ставку По товару : общую/пользователя
-            $MaxBet = $addTr->findByMaxBetForGood($id);
-            $MaxBetForUser = $addTr->findByMaxBetForGoodAndUser($id, $user);
-            //
-
             //Находим баланс Пользователя
             $BillUser = $user->getBalance();
             $VirBillUser = $user->getVirBalance();
-            //
 
-            //Находим Разницу в ставках пользователя : $pay - (Максиальная ставка пользователя)
-            $difPay = $pay->getNormData() - $MaxBetForUser;
-            //
+            // Проверяем на наличие прошлой ставки
+            if (!is_null($lastTransaction)){
+                $lastUser = $lastTransaction->getUserId();
+                $lastPay = $lastTransaction->getPay();
+            }else{
+                $lastPay = 0;
+            }
 
-            if( $pay->getNormData() <= $good->getCost() ){
+            if( $lastUser == $user  ){
+                $error = 'Нельзя ставить более 1 раза подрят';
+
+            }elseif( $pay->getNormData() <= $good->getCost() ){
                 $error = 'Ставка должна превышать начальную стоимость';
 
-            }elseif( $pay->getNormData() <= $MaxBet ){
+            }elseif( $pay->getNormData() <= $lastPay ){
                 $error = 'Ставка должна превышать последнюю ставку';
 
             }elseif( $pay->getNormData() > $good->getCostmax() ){
                 $error = 'Ставка не должна превышать стоимость быстрого выкупа';
 
-            }elseif( $VirBillUser < $difPay ){
+            }elseif( $VirBillUser < $pay->getNormData() ){
                 $error = 'Не достаточно средств для ставки';
 
             }else{
+
+                if( !is_null($lastTransaction) ){
+                    //обновление пред. ставки
+                    $lastTransaction->setStatus(false);
+                    $addTr->add($lastTransaction);
+
+                    //возврашяем вир. баланс пользователя
+                    $lastUser ->setVirBalance($lastUser ->getVirBalance() + $lastTransaction->getPay());
+                }
+
                 //Добавление сставки
                 $transaction->setGoodId($good);
                 $transaction->setUserId($user);
                 $transaction->setDate();
-                $transaction->setTotal($pay->getNormData());
-                //$addTr->add($transaction,true);
+                $transaction->setPay($pay->getNormData());
+                $transaction->setStatus(true);
+                $addTr->add($transaction,true);
+
+                //Обновляем вир. баланс пользователя vir VirBalance - ставка
+                $user->setVirBalance($VirBillUser - $pay->getNormData());
+                $userRepository->add($user,true);
+
+                //Если ставка равна Предельной стоимости товара->Присваеваем тавар пользователю
+                if($pay->getNormData() == $good->getCostmax()){
+                $good->setUser($user);
+                $hui->add($good,true);
+                }
             }
-
-
-            //Если ставка равна Предельной стоимости товара->Восстоновить Вир Балансы Пользователей
-            //-> Вычитаю стоимость ставки из Баланса и Вир. Баланса Победителя
-
-            //
-
         }
 
         return $this->render('good_view/index.html.twig', [
@@ -82,6 +107,8 @@ class GoodViewController extends AbstractController
             'user' => $user,
             'goodForm' => $form->createView(),
             'error' => $error,
+            'lastBet'=>$MaxBet,
+            'msg'=> $msg,
         ]);
     }
 

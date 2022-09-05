@@ -6,6 +6,7 @@ use App\Entity\Transaction;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Integer;
+use phpDocumentor\Reflection\Types\Null_;
 
 /**
  * @extends ServiceEntityRepository<Transaction>
@@ -48,28 +49,31 @@ class TransactionRepository extends ServiceEntityRepository
     {
 
         $b =  $this->createQueryBuilder('t')
-            ->Select('MAX(t.total)')
+            ->Select('MAX(t.pay)')
             ->andWhere('t.good_id = :good')
             ->setParameter('good', $good)
-
             ->getQuery()
-
             ->getResult()
-
         ;
+            if(is_null($b[0][1])){
+                $b[0][1] ='0';
+            }
+
+
 
         return  $b[0][1];
     }
 
     /**
      * @param $good
+     * @param $user
      * @return string Returns an array of Transaction objects
      */
     public function findByMaxBetForGoodAndUser($good, $user ): string
     {
 
         $b =  $this->createQueryBuilder('t')
-            ->Select('MAX(t.total)')
+            ->Select('MAX(t.pay)')
             ->andWhere('t.good_id = :good and t.user_id = :user')
 
             ->setParameter('good', $good)
@@ -77,10 +81,26 @@ class TransactionRepository extends ServiceEntityRepository
             ->getQuery()
 
             ->getResult()
-
         ;
-
+        if(is_null($b[0][1])){
+            $b[0][1] ='0';
+        }
         return  $b[0][1];
+
+    }
+
+    public function findAllPayForGood($Goods): array
+    {
+        return $this->createQueryBuilder('t')
+
+            ->Select('    SUM(t.pay)')
+
+            ->andWhere('t.good_id = :good')
+            ->addGroupBy('t.user_id ')
+            ->setParameter('good', $Goods->getId())
+            ->getQuery()
+            ->getResult()
+        ;
     }
 
 //    public function findOneBySomeField($value): ?Transaction

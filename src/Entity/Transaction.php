@@ -17,9 +17,6 @@ class Transaction
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $pay = null;
 
-    #[ORM\Column(length: 255, nullable: true)]
-    private ?string $total = null;
-
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $date = null;
 
@@ -30,6 +27,9 @@ class Transaction
     #[ORM\ManyToOne(inversedBy: 'transactions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Goods $good_id = null;
+
+    #[ORM\Column]
+    private ?bool $status = null;
 
     public function getId(): ?int
     {
@@ -48,17 +48,7 @@ class Transaction
         return $this;
     }
 
-    public function getTotal(): ?string
-    {
-        return $this->total;
-    }
 
-    public function setTotal(?string $total): self
-    {
-        $this->total = $total;
-
-        return $this;
-    }
 
     public function getDate(): ?\DateTimeInterface
     {
@@ -92,6 +82,18 @@ class Transaction
     public function setGoodId(?Goods $good_id): self
     {
         $this->good_id = $good_id;
+
+        return $this;
+    }
+
+    public function isStatus(): ?bool
+    {
+        return $this->status;
+    }
+
+    public function setStatus(bool $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

@@ -37,6 +37,9 @@ class Goods
     #[ORM\OneToMany(mappedBy: 'good_id', targetEntity: Transaction::class)]
     private Collection $transactions;
 
+    #[ORM\ManyToOne(inversedBy: 'goods')]
+    private ?User $User = null;
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -146,6 +149,18 @@ class Goods
                 $transaction->setGoodId(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
 
         return $this;
     }
