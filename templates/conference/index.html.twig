@@ -39,6 +39,14 @@
                                     <p>{{ good.lastdate|date('d-m-Y') }}</p>
                                 </div>
 
+                                <div class="soder">
+                                    {% if good.getUser() %}
+                                        <p class=" ">Статус:</p>
+                                        <p class=" ">Выкуплен</p>
+                                    {% endif %}
+                                </div>
+
+
                             </a>
                         </li>
                     {% endfor %}

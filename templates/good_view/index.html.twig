@@ -41,12 +41,8 @@
             </div>
 
             <div class="prof_inf btw_con">
-
                 <a href="" class = "btw_box">Редактировать</a>
                 <a href="" class = "btw_box">Удалить</a>
-                <a  class = "btw_box  buy" id ="buy-button" >Сделать ставку</a>
-
-
             </div>
         </div>
     </div>
@@ -64,11 +60,38 @@
         {% if error %}
             <p class="msg">{{ error }}</p>
         {% endif %}
-
-        <button type="submit" class="registerbtn">Register</button>
+        <button type="submit" class="registerbtn">Сделать ставку</button>
 
     </div>
     <hr>
     {{ form_end(goodForm) }}
 {% endif %}
+
+    <hr>
+    <table class="main_rows">
+        <thead class="name_rows">
+        <tr>
+            <th>user</th>
+            <th>event</th>
+            <th>amount</th>
+            <th>date</th>
+        <tr>
+        </thead>
+        <tbody>
+
+        {% for Transaction in Transactions %}
+        <tr class ="boss_index_table_offline">
+            <td><b>{{ Transaction.getUserId().getUsername() }}</b></td>
+            <td>Сделал ставку</td>
+            <td><b>{{ Transaction.pay }}</b></td>
+
+
+            <td>{{ Transaction.date|date('d-m-Y') }}</td>
+        </tr>
+        {% endfor %}
+        <tbody>
+    </table>
+    <hr>
+    </div>
+
 {% endblock %}

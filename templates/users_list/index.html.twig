@@ -1,0 +1,53 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Hello UsersListController!{% endblock %}
+
+{% block stylesheets %}
+<link rel="stylesheet" href="/css/tabel.css">
+{% endblock %}
+
+{% block main %}
+    <div class="intro"> </div>
+    <div class="main">
+        <div class="contant">
+            <div class="contant_name"> USERS </div>
+            <hr>
+            <div class="btw_con">
+
+                <button type=" " class="btw_use"  >Добавить пользователя</button>
+            </div>
+            <hr>
+            <table class="main_rows">
+                <thead class="name_rows">
+                <tr>
+                    <th>id</th>
+                    <th>name</th>
+                    <th>login</th>
+                    <th>group</th>
+                    <th> </th>
+                <tr>
+                </thead>
+                <tbody>
+
+                {% for allUser in allUsers %}
+                 <tr class ="boss_index_table_offline">
+
+                     <td>{{ allUser.id }}</td>
+                     <td>{{ allUser.username }}</td>
+                     <td> </td>
+                     <td></td>
+                     <td class = "left">
+                        <div class ="btn-group nowrap">
+                            <a href="" class = "btn btn-default js-tooltip">Редактировать</a>
+                            <a href="" class = "btn btn-default js-tooltip">Удалить</a>
+                        </div>
+                     </td>
+                 </tr>
+                {% endfor %}
+                <tbody>
+            </table>
+            <hr>
+        </div>
+    </div>
+
+{% endblock %}

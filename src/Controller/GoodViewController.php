@@ -27,6 +27,8 @@ class GoodViewController extends AbstractController
             'good_id' => $id,
             'status' => '1'
         ]);
+        $AllTransactions = $addTr->findBy(['good_id'=>$id]);
+
         $lastUser = New User();
         $error = Null;
         $msg = $good->getUser();
@@ -56,7 +58,7 @@ class GoodViewController extends AbstractController
                 $lastPay = 0;
             }
 
-            if( $lastUser == $user  ){
+            if( $lastUser->getId() == $user->getId()  ){
                 $error = 'Нельзя ставить более 1 раза подрят';
 
             }elseif( $pay->getNormData() <= $good->getCost() ){
@@ -109,6 +111,7 @@ class GoodViewController extends AbstractController
             'error' => $error,
             'lastBet'=>$MaxBet,
             'msg'=> $msg,
+            'Transactions'=>$AllTransactions,
         ]);
     }
 

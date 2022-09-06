@@ -27,8 +27,10 @@
                             <nav class="nav">
                                 <a class="nav_link" href=" ">about</a>
                                 <a class="nav_link" href="/goods_list">Аукцион</a>
-                                <a class="nav_link" href=" ">users</a>
+                                <a class="nav_link" href="/users/list">users</a>
+                                {% if user %}
                                 <a class="nav_link" href="/user">{{ user.getUsername() }}</a>
+                                {% endif %}
                                 <a class="nav_link" href="/logout">Выйти</a>
                             </nav>
                         </div>
