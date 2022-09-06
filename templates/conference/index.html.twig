@@ -13,9 +13,11 @@
                 <div class="contant_name">АУКЦИОН</div>
                 <hr>
                 <div class="btw_con">
+                    {% if is_granted('ROLE_ADMIN') %}
                     <form action="/addGood" target="_blank">
                         <button class="btw_use"  >Добавить лот</button>
                     </form>
+                    {% endif %}
                 </div>
 
             <div class="goods">

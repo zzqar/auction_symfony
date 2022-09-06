@@ -1,6 +1,6 @@
 {% extends 'base.html.twig' %}
 
-{% block title %}Hello UsersListController!{% endblock %}
+{% block title %}User list{% endblock %}
 
 {% block stylesheets %}
 <link rel="stylesheet" href="/css/tabel.css">
@@ -22,7 +22,7 @@
                 <tr>
                     <th>id</th>
                     <th>name</th>
-                    <th>login</th>
+
                     <th>group</th>
                     <th> </th>
                 <tr>
@@ -34,12 +34,12 @@
 
                      <td>{{ allUser.id }}</td>
                      <td>{{ allUser.username }}</td>
-                     <td> </td>
-                     <td></td>
+
+                     <td>{{ allUser.getRoles()|join(', ') }}</td>
                      <td class = "left">
                         <div class ="btn-group nowrap">
-                            <a href="" class = "btn btn-default js-tooltip">Редактировать</a>
-                            <a href="" class = "btn btn-default js-tooltip">Удалить</a>
+                            <a href="/user/{{ allUser.id }}" class = "btn btn-default js-tooltip">Редактировать</a>
+                            <a href="/users/list/{{ allUser.id }}" class = "btn btn-default js-tooltip">Удалить</a>
                         </div>
                      </td>
                  </tr>

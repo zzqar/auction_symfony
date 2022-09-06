@@ -5,7 +5,8 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="/css/profile.css">
     <link rel="stylesheet" href="/css/goods_style.css">
-    <link rel="stylesheet" href="/css/popup.css">
+    <link rel="stylesheet" href="/css/tabel.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 
 {% endblock %}
 
@@ -17,7 +18,7 @@
                 <img src="/images/no_icon.png" alt="">
             </div>
             <div class="inf_cont">
-                <div class="contant_name"> {{ user.getUsername() }}</div>
+                <div class="contant_name"> {{ userE.getUsername() }}</div>
 
 
                 <div class="prof_inf btw_con">
@@ -29,4 +30,21 @@
             </div>
         </div>
     </div>
+
+    {% if is_granted('ROLE_ADMIN') %}
+
+        {{ form_start(userForm, {
+            'attr': {'class':'form_reg'}}) }}
+        <div class="container2">
+            <hr>
+            {{ form_row(userForm.username, {
+                'attr': {'class':'poleinput'}
+            }) }}
+
+            <button type="submit" class="registerbtn">Поменять</button>
+
+        </div>
+        <hr>
+        {{ form_end(userForm) }}
+    {% endif %}
 {% endblock %}

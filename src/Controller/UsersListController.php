@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Repository\UserRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -10,6 +11,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class UsersListController extends AbstractController
 {
     #[Route('/users/list', name: 'app_users_list')]
+    #[IsGranted('ROLE_ADMIN')]
     public function index(UserRepository $userRepository): Response
     {
         $user = $this->getUser();
@@ -21,5 +23,18 @@ class UsersListController extends AbstractController
             'allUsers'=>$AllUsers,
 
         ]);
+    }
+    #[Route('/users/list/{id}', methods: ['GET'])]
+
+    public function userDelite(UserRepository $userRepository, int $id): Response
+    {
+
+
+        $userRepository->remove($userRepository->find($id),true);
+
+
+
+        return $this->redirectToRoute('app_users_list');
+
     }
 }

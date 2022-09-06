@@ -27,9 +27,13 @@
                             <nav class="nav">
                                 <a class="nav_link" href=" ">about</a>
                                 <a class="nav_link" href="/goods_list">Аукцион</a>
+
+                                {% if is_granted('ROLE_ADMIN') %}
                                 <a class="nav_link" href="/users/list">users</a>
+                                {% endif %}
+
                                 {% if user %}
-                                <a class="nav_link" href="/user">{{ user.getUsername() }}</a>
+                                <a class="nav_link" href="/user/{{ user.getId() }}">{{ user.getUsername() }}</a>
                                 {% endif %}
                                 <a class="nav_link" href="/logout">Выйти</a>
                             </nav>

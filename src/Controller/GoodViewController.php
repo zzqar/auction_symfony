@@ -41,7 +41,6 @@ class GoodViewController extends AbstractController
         $MaxBet = $addTr->findByMaxBetForGood($id);
 
         if ($form->isSubmitted() && $form->isValid())
-
         {
             //Сумма из формы
             $pay = $form->get('pay');
