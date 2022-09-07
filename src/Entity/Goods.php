@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: GoodsRepository::class)]
-class Goods
+class Goods implements \Countable
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -181,4 +181,8 @@ class Goods
     }
 
 
+    public function count()
+    {
+        // TODO: Implement count() method.
+    }
 }

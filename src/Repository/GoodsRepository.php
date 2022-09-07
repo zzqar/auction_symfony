@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Goods;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\NoResultException;
 use Doctrine\Persistence\ManagerRegistry;
 
 /**
@@ -39,20 +40,45 @@ class GoodsRepository extends ServiceEntityRepository
         }
     }
 
-//    /**
-//     * @return Goods[] Returns an array of Goods objects
-//     */
-//    public function findByExampleField($value): array
-//    {
-//        return $this->createQueryBuilder('g')
-//            ->andWhere('g.exampleField = :val')
-//            ->setParameter('val', $value)
-//            ->orderBy('g.id', 'ASC')
-//            ->setMaxResults(10)
-//            ->getQuery()
-//            ->getResult()
-//        ;
-//    }
+
+    public function countOldGoods(): int
+    {
+        return $this->getOldGoodsQueryBuilder()->select('COUNT(c.id)')->getQuery()->getSingleScalarResult();
+    }
+
+
+
+
+    private function getOldGoodsQueryBuilder(): \Doctrine\ORM\QueryBuilder
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.status = :status ')
+            ->andWhere('c.last_date <= :date')
+            ->setParameters([
+                'status' => '0',
+
+                'date' => new \DateTime(),
+            ])
+        ;
+    }
+
+    /**
+     * @return Goods[] Returns an array of Goods objects
+     */
+    public function getOldGoods(): array
+    {
+        return $this->createQueryBuilder('c')
+            ->andWhere('c.status = :status ')
+            ->andWhere('c.last_date <= :date')
+            ->setParameters([
+                'status' => '0',
+
+                'date' => new \DateTime(),
+            ])
+            ->getQuery()
+            ->getResult()
+        ;
+    }
 
 //    public function findOneBySomeField($value): ?Goods
 //    {
