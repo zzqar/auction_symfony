@@ -13,16 +13,17 @@
             <div class="contant_name"> USERS </div>
             <hr>
             <div class="btw_con">
-
-                <button type=" " class="btw_use"  >Добавить пользователя</button>
+                <form action="/user/list/add" target="_blank">
+                    <button type=" " class="btw_use"  >Добавить пользователя</button>
+                </form>
             </div>
             <hr>
             <table class="main_rows">
                 <thead class="name_rows">
                 <tr>
                     <th>id</th>
+                    <th>login</th>
                     <th>name</th>
-
                     <th>group</th>
                     <th> </th>
                 <tr>
@@ -34,7 +35,7 @@
 
                      <td>{{ allUser.id }}</td>
                      <td>{{ allUser.username }}</td>
-
+                     <td>{{ allUser.name }}</td>
                      <td>{{ allUser.getRoles()|join(', ') }}</td>
                      <td class = "left">
                         <div class ="btn-group nowrap">

@@ -18,8 +18,11 @@
                 <img src="/images/no_icon.png" alt="">
             </div>
             <div class="inf_cont">
-                <div class="contant_name"> {{ userE.getUsername() }}</div>
-
+                <div class="contant_name"> {{ userE.getName() }}</div>
+                <div class="prof_inf">
+                    <p class="">Login: </p>
+                    <p>{{ userE.getUsername() }}</p>
+                </div>
 
                 <div class="prof_inf btw_con">
 
@@ -37,7 +40,7 @@
             'attr': {'class':'form_reg'}}) }}
         <div class="container2">
             <hr>
-            {{ form_row(userForm.username, {
+            {{ form_row(userForm.name, {
                 'attr': {'class':'poleinput'}
             }) }}
 

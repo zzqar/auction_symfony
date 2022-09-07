@@ -1,0 +1,34 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}addUser{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
+{% endblock %}
+
+    {% block main %}
+
+
+        {{ form_start(registrationForm, {
+            'attr': {'class':'form_reg'}}) }}
+        <div class="container2">
+            <h1>Создать пользователя</h1><hr>
+            {{ form_row(registrationForm.username, {
+                'attr': {'class':'poleinput'}
+            }) }}
+            {{ form_row(registrationForm.name, {
+                'attr': {'class':'poleinput'}
+            }) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password',
+                'attr': {'class':'poleinput'}
+            }) }}
+            {{ form_row(registrationForm.agreeTerms) }}
+
+            <button type="submit" class="registerbtn">Создать</button>
+
+        </div>
+        <hr>
+        {{ form_end(registrationForm) }}
+
+    {% endblock %}

@@ -27,7 +27,7 @@ class UserController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $userE->setUsername($form->get('username')->getData());
+            $userE->setName($form->get('name')->getData());
             $userRepository->add($userE,true);
 
             return $this->redirectToRoute('app_users_list');
