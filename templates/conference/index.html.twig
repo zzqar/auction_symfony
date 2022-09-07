@@ -23,6 +23,7 @@
             <div class="goods">
                 <ul class="products clearfix">
                     {% for good in goods %}
+                        {% if good.status == 0 or is_granted('ROLE_ADMIN') %}
                         <li class="product-wrapper">
                             <a href="/good/view/{{good.id}}" class="product">
                                 <div class="product-photo">
@@ -42,15 +43,16 @@
                                 </div>
 
                                 <div class="soder">
-                                    {% if good.getUser() %}
+                                    {% if good.status != 0 %}
                                         <p class=" ">Статус:</p>
-                                        <p class=" ">Выкуплен</p>
+                                        <p class=" ">Завершен</p>
                                     {% endif %}
                                 </div>
 
 
                             </a>
                         </li>
+                        {% endif %}
                     {% endfor %}
                 </ul>
             </div>

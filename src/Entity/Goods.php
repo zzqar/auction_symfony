@@ -40,6 +40,9 @@ class Goods
     #[ORM\ManyToOne(inversedBy: 'goods')]
     private ?User $User = null;
 
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $status = '0';
+
     public function __construct()
     {
         $this->transactions = new ArrayCollection();
@@ -161,6 +164,18 @@ class Goods
     public function setUser(?User $User): self
     {
         $this->User = $User;
+
+        return $this;
+    }
+
+    public function getStatus(): ?string
+    {
+        return $this->status;
+    }
+
+    public function setStatus(?string $status): self
+    {
+        $this->status = $status;
 
         return $this;
     }

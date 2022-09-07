@@ -40,32 +40,39 @@
                 <p>{{ good.lastdate|date('d-m-Y') }}</p>
             </div>
 
+            {% if is_granted('ROLE_ADMIN') and good.status == 0 %}
             <div class="prof_inf btw_con">
-                <a href="" class = "btw_box">Редактировать</a>
-                <a href="" class = "btw_box">Удалить</a>
+                <a href="/good/exit/{{ good.id }}" class = "btw_box">Завершить</a>
+                <a href="/good/cancel/{{ good.id }}" class = "btw_box">Отменить</a>
             </div>
+            {% endif %}
+
         </div>
     </div>
 </div>
-{% if msg %}
-    <p class="msg">Товар выкуплен пользователем: {{ msg.username }}</p>
-{% else %}
-    {{ form_start(goodForm, {
-        'attr': {'class':'form_reg'}}) }}
-    <div class="container2">
-         <hr>
-        {{ form_row(goodForm.pay, {
-            'attr': {'class':'poleinput'}
-        }) }}
-        {% if error %}
-            <p class="msg">{{ error }}</p>
-        {% endif %}
-        <button type="submit" class="registerbtn">Сделать ставку</button>
+{% if good.status != 2%}
+    {% if msg %}
+        <p class="msg">Товар выкуплен пользователем: {{ msg.username }}</p>
+    {% else %}
+        {{ form_start(goodForm, {
+            'attr': {'class':'form_reg'}}) }}
+        <div class="container2">
+             <hr>
+            {{ form_row(goodForm.pay, {
+                'attr': {'class':'poleinput'}
+            }) }}
+            {% if error %}
+                <p class="msg">{{ error }}</p>
+            {% endif %}
+            <button type="submit" class="registerbtn">Сделать ставку</button>
 
-    </div>
-    <hr>
-    {{ form_end(goodForm) }}
-{% endif %}
+        </div>
+        <hr>
+        {{ form_end(goodForm) }}
+    {% endif %}
+{% else %}
+    <p class="msg">Товар отменен </p>
+{% endif%}
 
     <hr>
     <table class="main_rows">
@@ -86,7 +93,7 @@
             <td><b>{{ Transaction.pay }}</b></td>
 
 
-            <td>{{ Transaction.date|date('d-m-Y') }}</td>
+            <td>{{ Transaction.date|date('d-m-Y H:i') }}</td>
         </tr>
         {% endfor %}
         <tbody>

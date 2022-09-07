@@ -11,6 +11,7 @@ use App\Repository\GoodsRepository;
 use App\Repository\TransactionRepository;
 use App\Repository\UserRepository;
 use phpDocumentor\Reflection\Types\String_;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\IsGranted;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,6 +19,15 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class GoodViewController extends AbstractController
 {
+
+    /*
+      Стаутсы товара
+        0 - активен
+        1 - завершен
+        2 - отменен
+
+     */
+
     #[Route('/good/view/{id}',methods: ['GET','POST'] )]
     public function index(Request $request, int $id, GoodsRepository $hui, TransactionRepository $addTr,UserRepository $userRepository): Response
     {
@@ -93,13 +103,18 @@ class GoodViewController extends AbstractController
 
                 //Обновляем вир. баланс пользователя vir VirBalance - ставка
                 $user->setVirBalance($VirBillUser - $pay->getNormData());
-                $userRepository->add($user,true);
 
                 //Если ставка равна Предельной стоимости товара->Присваеваем тавар пользователю
                 if($pay->getNormData() == $good->getCostmax()){
-                $good->setUser($user);
-                $hui->add($good,true);
+                    $good->setUser($user);
+                    $good->setStatus('1');
+                    $hui->add($good,true);
+                    $user->setBalance($BillUser - $pay->getNormData());
+
                 }
+
+                $userRepository->add($user,true);
+                //return $this->redirectToRoute('app_goodview_index',['id' => $id ] );
             }
         }
 
@@ -112,6 +127,57 @@ class GoodViewController extends AbstractController
             'msg'=> $msg,
             'Transactions'=>$AllTransactions,
         ]);
+    }
+
+    #[Route('/good/exit/{id}',methods: ['GET','POST'] )]
+    #[IsGranted('ROLE_ADMIN')]
+    public function goodEnd( TransactionRepository $addTr, int $id,GoodsRepository $goodsRepository,UserRepository $userRepository): Response
+    {
+        // Администратор завершает аукцион. стаус аукциона меняется с 0 на 1. последний пользователь становится победителем
+        $user =new User();
+        $good = $goodsRepository->find($id);
+        $lastTransaction = $addTr->findOneBy([
+            'good_id' => $id,
+            'status' => '1'
+        ]);
+        $user = $lastTransaction->getUserId();
+        $BillUser = $user->getBalance();
+
+        $good->setUser($lastTransaction->getUserId());
+        $good->setStatus('1');
+        $goodsRepository->add($good,true);
+
+        $user->setBalance($BillUser - $lastTransaction->getPay());
+        $userRepository->add($user,true);
+
+
+        return $this->redirectToRoute('app_goodview_index',['id' => $id ] );
+
+    }
+
+    #[Route('/good/cancel/{id}',methods: ['GET','POST'] )]
+    #[IsGranted('ROLE_ADMIN')]
+    public function goodСancel( TransactionRepository $addTr, int $id,GoodsRepository $goodsRepository,UserRepository $userRepository ): Response
+    {
+        // Администратор завершает аукцион. стаус аукциона меняется с 0 на 2.сумма ставки возврашяется последнему пользователю
+        $user =new User();
+        $good = $goodsRepository->find($id);
+        $lastTransaction = $addTr->findOneBy([
+            'good_id' => $id,
+            'status' => '1'
+        ]);
+        $user = $lastTransaction->getUserId();
+        $VirBillUser = $user->getVirBalance();
+
+
+        $good->setStatus('2');
+        $goodsRepository->add($good,true);
+
+        $user->setVirBalance($VirBillUser + $lastTransaction->getPay());
+        $userRepository->add($user,true);
+
+
+        return $this->redirectToRoute('app_goodview_index',['id' => $id ] );
     }
 
 
