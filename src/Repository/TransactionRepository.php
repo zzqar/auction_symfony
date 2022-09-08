@@ -2,8 +2,11 @@
 
 namespace App\Repository;
 
+use App\Entity\Goods;
 use App\Entity\Transaction;
+use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Mapping\Entity;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Null_;
@@ -64,44 +67,30 @@ class TransactionRepository extends ServiceEntityRepository
         return  $b[0][1];
     }
 
-    /**
-     * @param $good
-     * @param $user
-     * @return string Returns an array of Transaction objects
-     */
-    public function findByMaxBetForGoodAndUser($good, $user ): string
+
+    public function findByMaxBetForGoodAndUser( User $user ,Goods $good):  string
     {
 
-        $b =  $this->createQueryBuilder('t')
-            ->Select('MAX(t.pay)')
-            ->andWhere('t.good_id = :good and t.user_id = :user')
+         $b = $this->createQueryBuilder('t')
+            ->Select('MAX(t.pay) ')
+            ->andWhere(' t.good_id = :good')
+            ->andWhere(' t.user_id = :user')
+            ->setParameters([
+                'good'=>$good->getId(),
+                'user'=>$user->getId()
+            ])
 
-            ->setParameter('good', $good)
-            ->setParameter('user', $user->getId())
             ->getQuery()
+             ->getResult()
+         ;
+        if(is_null($b[0][1])){ $b[0][1] ='0'; }
+        return $b[0][1];
 
-            ->getResult()
-        ;
-        if(is_null($b[0][1])){
-            $b[0][1] ='0';
-        }
-        return  $b[0][1];
+
 
     }
 
-    public function findAllPayForGood($Goods): array
-    {
-        return $this->createQueryBuilder('t')
 
-            ->Select('    SUM(t.pay)')
-
-            ->andWhere('t.good_id = :good')
-            ->addGroupBy('t.user_id ')
-            ->setParameter('good', $Goods->getId())
-            ->getQuery()
-            ->getResult()
-        ;
-    }
 
 //    public function findOneBySomeField($value): ?Transaction
 //    {
