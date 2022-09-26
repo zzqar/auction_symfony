@@ -133,12 +133,16 @@ class GoodViewController extends AbstractController
                 return $this->redirectToRoute('app_goodview_index',['id' => $id ] );
             }
         }
+        $error =  [];
+        if( !empty($_GET['error']) ){
+            $error = $_GET['error'];
+        }
 
         return $this->render('good_view/index.html.twig', [
             'good' => $good ,
             'user' => $user,
             'goodForm' => $form->createView(),
-            'error' => $_GET['error'],
+            'error' => $error,
             'lastBet'=>$MaxBet,
             'msg'=> $msg,
             'Transactions'=>$AllTransactions,

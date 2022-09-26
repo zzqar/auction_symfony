@@ -7,6 +7,7 @@ use App\Entity\Transaction;
 use App\Entity\User;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Mapping\Entity;
+use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\Persistence\ManagerRegistry;
 use phpDocumentor\Reflection\Types\Integer;
 use phpDocumentor\Reflection\Types\Null_;
@@ -48,30 +49,20 @@ class TransactionRepository extends ServiceEntityRepository
      * @param $good
      * @return string Returns an array of Transaction objects
      */
-    public function findByMaxBetForGood($good): string
+    public function findByMaxBetForGood($good): string|null
     {
-
-        $b =  $this->createQueryBuilder('t')
+        return $this->createQueryBuilder('t')
             ->Select('MAX(t.pay)')
             ->andWhere('t.good_id = :good')
             ->setParameter('good', $good)
             ->getQuery()
-            ->getResult()
+            >getSingleScalarResult()
         ;
-            if(is_null($b[0][1])){
-                $b[0][1] ='0';
-            }
-
-
-
-        return  $b[0][1];
     }
 
-
-    public function findByMaxBetForGoodAndUser( User $user ,Goods $good):  string
+    public function findByMaxBetForGoodAndUser(User $user , Goods $good):  string|null
     {
-
-         $b = $this->createQueryBuilder('t')
+        return  $this->createQueryBuilder('t')
             ->Select('MAX(t.pay) ')
             ->andWhere(' t.good_id = :good')
             ->andWhere(' t.user_id = :user')
@@ -80,17 +71,9 @@ class TransactionRepository extends ServiceEntityRepository
                 'user'=>$user->getId()
             ])
             ->getQuery()
-             ->getResult()
-         ;
-        if(is_null($b[0][1])){
-            $b[0][1] ='0';
-        }
-        return $b[0][1];
-
-
-
+            ->getSingleScalarResult()
+        ;
     }
-
 
 
 //    public function findOneBySomeField($value): ?Transaction

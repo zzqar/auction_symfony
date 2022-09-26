@@ -52,12 +52,12 @@ class CheckGoodsCommand extends Command
             $count =  $this->goodsRepository->countOldGoods() ;
             // Находим Активные товары с датой таой завершения < = new \DateTime()
 
-            $test = $this->goodsRepository->getOldGoods();
+            $goods = $this->goodsRepository->getOldGoods();
 
-            foreach ( $test as $g) {
+            foreach ( $goods as $good) {
                 //Ищем актуальную(последнюю) транзакцию по товару
                 $lastTransaction = $this->addTr->findOneBy([
-                    'good_id' => $g->getId(),
+                    'good_id' => $good->getId(),
                     'status' => '1'
                 ]);
                 //если нашли
@@ -65,17 +65,17 @@ class CheckGoodsCommand extends Command
                     $BillUser = $lastTransaction->getUserId()->getBalance();
 
                     // устанавливаем владельцем товара пользователя из транзакции
-                    $g->setUser($lastTransaction->getUserId());
-                    $g->setStatus('1');
+                    $good->setUser($lastTransaction->getUserId())->setStatus('1');
+
                     // вычитаем сумму платежа из реального баланса
                     $lastTransaction->getUserId()->setBalance($BillUser - $lastTransaction->getPay());
                     $this->addTr->userRepository->add($lastTransaction->getUserId(), true);
                 }else{
-                    $g->setStatus('2');
+                    $good->setStatus('2');
                 }
                 //завершаем торги по товару
-                $g->setStatus('2');
-                $this->goodsRepository->add($g, true);
+                $good->setStatus('2');
+                $this->goodsRepository->add($good, true);
             }
         }
 

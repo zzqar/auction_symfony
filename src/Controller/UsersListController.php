@@ -28,12 +28,7 @@ class UsersListController extends AbstractController
 
     public function userDelite(UserRepository $userRepository, int $id): Response
     {
-
-
         $userRepository->remove($userRepository->find($id),true);
-
-
-
         return $this->redirectToRoute('app_users_list');
 
     }

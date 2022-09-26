@@ -26,11 +26,7 @@ class AddGoodController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
-            $good->setImages('/images/no_icon.png');
-
-            $good->setDateCreate();
-            $good->setCostmax($good->getCost()*10);
-
+            $good->setImages('/images/no_icon.png')->setDateCreate()->setCostmax($good->getCost()*10);
             $goodsRepository->add($good,true);
         }
 
