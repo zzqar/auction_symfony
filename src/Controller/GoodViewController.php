@@ -28,11 +28,11 @@ class GoodViewController extends AbstractController
 
      */
 
-    #[Route('/good/view/{id}',methods: ['GET','POST'] )]
-    public function index(Request $request, int $id, GoodsRepository $hui, TransactionRepository $addTr,UserRepository $userRepository): Response
+    #[Route('/good/view/{id} ',methods: ['GET','POST'] )]
+    public function index(Request $request, int $id, GoodsRepository $goodsRepository, TransactionRepository $addTr,UserRepository $userRepository): Response
     {
         $user = $this->getUser();
-        $good = $hui->find($id);
+        $good = $goodsRepository->find($id);
         $lastTransaction = $addTr->findOneBy([
             'good_id' => $id,
             'status' => '1'
@@ -40,7 +40,6 @@ class GoodViewController extends AbstractController
         $AllTransactions = $addTr->findBy(['good_id'=>$id]);
 
         $lastUser = New User();
-        $error = Null;
         $msg = $good->getUser();
 
         $transaction = new Transaction();
@@ -50,8 +49,8 @@ class GoodViewController extends AbstractController
         //Находим Максимальную ставку По товару : общую/пользователя
         $MaxBet = $addTr->findByMaxBetForGood($id);
 
-        if ($form->isSubmitted() && $form->isValid())
-        {
+        if ($form->isSubmitted() && $form->isValid()){
+
             //Сумма из формы
             $pay = $form->get('pay');
 
@@ -69,18 +68,39 @@ class GoodViewController extends AbstractController
 
             if( $lastUser->getId() == $user->getId()  ){
                 $error = 'Нельзя ставить более 1 раза подрят';
+                return $this->redirectToRoute('app_goodview_index',[
+                    'id' => $id ,
+                    'error' => $error,
+                ] );
 
             }elseif( $pay->getNormData() <= $good->getCost() ){
                 $error = 'Ставка должна превышать начальную стоимость';
 
+                return $this->redirectToRoute('app_goodview_index',[
+                    'id' => $id ,
+                    'error' => $error,
+                ] );
+
             }elseif( $pay->getNormData() <= $lastPay ){
                 $error = 'Ставка должна превышать последнюю ставку';
+                return $this->redirectToRoute('app_goodview_index',[
+                    'id' => $id ,
+                    'error' => $error,
+                ] );
 
             }elseif( $pay->getNormData() > $good->getCostmax() ){
                 $error = 'Ставка не должна превышать стоимость быстрого выкупа';
+                return $this->redirectToRoute('app_goodview_index',[
+                    'id' => $id ,
+                    'error' => $error,
+                ] );
 
             }elseif( $VirBillUser < $pay->getNormData() ){
                 $error = 'Не достаточно средств для ставки';
+                return $this->redirectToRoute('app_goodview_index',[
+                    'id' => $id ,
+                    'error' => $error,
+                ] );
 
             }else{
 
@@ -94,11 +114,7 @@ class GoodViewController extends AbstractController
                 }
 
                 //Добавление сставки
-                $transaction->setGoodId($good);
-                $transaction->setUserId($user);
-                $transaction->setDate();
-                $transaction->setPay($pay->getNormData());
-                $transaction->setStatus(true);
+                $transaction->setGoodId($good)->setUserId($user)->setDate()->setPay($pay->getNormData())->setStatus(true);
                 $addTr->add($transaction,true);
 
                 //Обновляем вир. баланс пользователя vir VirBalance - ставка
@@ -106,15 +122,15 @@ class GoodViewController extends AbstractController
 
                 //Если ставка равна Предельной стоимости товара->Присваеваем тавар пользователю
                 if($pay->getNormData() == $good->getCostmax()){
-                    $good->setUser($user);
-                    $good->setStatus('1');
-                    $hui->add($good,true);
+                    $good->setUser($user)->setStatus('1');
+
+                    $goodsRepository->add($good,true);
                     $user->setBalance($BillUser - $pay->getNormData());
 
                 }
 
                 $userRepository->add($user,true);
-                //return $this->redirectToRoute('app_goodview_index',['id' => $id ] );
+                return $this->redirectToRoute('app_goodview_index',['id' => $id ] );
             }
         }
 
@@ -122,7 +138,7 @@ class GoodViewController extends AbstractController
             'good' => $good ,
             'user' => $user,
             'goodForm' => $form->createView(),
-            'error' => $error,
+            'error' => $_GET['error'],
             'lastBet'=>$MaxBet,
             'msg'=> $msg,
             'Transactions'=>$AllTransactions,

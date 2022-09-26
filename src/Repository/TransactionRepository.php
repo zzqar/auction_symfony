@@ -79,11 +79,12 @@ class TransactionRepository extends ServiceEntityRepository
                 'good'=>$good->getId(),
                 'user'=>$user->getId()
             ])
-
             ->getQuery()
              ->getResult()
          ;
-        if(is_null($b[0][1])){ $b[0][1] ='0'; }
+        if(is_null($b[0][1])){
+            $b[0][1] ='0';
+        }
         return $b[0][1];
 
 
