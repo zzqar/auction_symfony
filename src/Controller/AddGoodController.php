@@ -28,6 +28,8 @@ class AddGoodController extends AbstractController
         {
             $good->setImages('/images/no_icon.png')->setDateCreate()->setCostmax($good->getCost()*10);
             $goodsRepository->add($good,true);
+
+            return $this->redirectToRoute('app_add_good'  );
         }
 
 
