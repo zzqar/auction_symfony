@@ -194,15 +194,17 @@ class GoodViewController extends AbstractController
             'good_id' => $id,
             'status' => '1'
         ]);
-        $user = $lastTransaction->getUserId();
-        $VirBillUser = $user->getVirBalance();
 
+        if( $lastTransaction ){
+
+            $user = $lastTransaction->getUserId();
+            $VirBillUser = $user->getVirBalance();
+            $user->setVirBalance($VirBillUser + $lastTransaction->getPay());
+            $userRepository->add($user,true);
+        }
 
         $good->setStatus('2');
         $goodsRepository->add($good,true);
-
-        $user->setVirBalance($VirBillUser + $lastTransaction->getPay());
-        $userRepository->add($user,true);
 
 
         return $this->redirectToRoute('app_goodview_index',['id' => $id ] );
