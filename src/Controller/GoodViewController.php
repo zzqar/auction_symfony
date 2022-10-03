@@ -46,8 +46,13 @@ class GoodViewController extends AbstractController
         $form = $this->createForm(AddNewBetType::class, $transaction);
         $form->handleRequest($request);
 
-        //Находим Максимальную ставку По товару : общую/пользователя
-        $MaxBet = $addTr->findByMaxBetForGood($id);
+
+        //Находим Максимальную ставку По товару : общую
+        $MaxBet = 0;
+        if( $lastTransaction ){
+            $MaxBet = $lastTransaction->getPay();
+        }
+
 
         if ($form->isSubmitted() && $form->isValid()){
 
