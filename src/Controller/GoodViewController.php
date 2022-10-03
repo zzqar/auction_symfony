@@ -165,15 +165,18 @@ class GoodViewController extends AbstractController
             'good_id' => $id,
             'status' => '1'
         ]);
-        $user = $lastTransaction->getUserId();
-        $BillUser = $user->getBalance();
 
-        $good->setUser($lastTransaction->getUserId());
-        $good->setStatus('1');
-        $goodsRepository->add($good,true);
+        if( $lastTransaction ){
+            $user = $lastTransaction->getUserId();
+            $BillUser = $user->getBalance();
 
-        $user->setBalance($BillUser - $lastTransaction->getPay());
-        $userRepository->add($user,true);
+            $good->setUser($lastTransaction->getUserId());
+            $good->setStatus('1');
+            $goodsRepository->add($good,true);
+
+            $user->setBalance($BillUser - $lastTransaction->getPay());
+            $userRepository->add($user,true);
+        }
 
 
         return $this->redirectToRoute('app_goodview_index',['id' => $id ] );

@@ -42,7 +42,11 @@
 
             {% if is_granted('ROLE_ADMIN') and good.status == 0 %}
             <div class="prof_inf btw_con">
+
+                {% if lastBet != 0 %}
                 <a href="/good/exit/{{ good.id }}" class = "btw_box">Завершить</a>
+                {% endif %}
+
                 <a href="/good/cancel/{{ good.id }}" class = "btw_box">Отменить</a>
             </div>
             {% endif %}
