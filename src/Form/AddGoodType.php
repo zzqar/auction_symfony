@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\Length;
 
 class AddGoodType extends AbstractType
 {
@@ -18,7 +19,14 @@ class AddGoodType extends AbstractType
         $builder
        //     ->add('images', FileType::class)
             ->add('name')
-            ->add('cost', IntegerType::class)
+            ->add('cost', IntegerType::class, [
+                    'constraints' => [
+                        new Length([
+                        'min' => 100,
+                        'max' => 100000,
+                        ]),
+                    ],
+                ])
             ->add('last_date', DateType::class)
 
         ;
