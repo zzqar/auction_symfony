@@ -4,6 +4,8 @@
 {% block stylesheets %}
     <link rel="stylesheet" href="/css/tabel.css">
     <link rel="stylesheet" href="/css/auction.css">
+    <link rel="stylesheet" href="/css/popup.css">
+    <link rel="stylesheet" type="text/css" href="/css/style.css">
 {% endblock %}
 {% block main %}
 
@@ -15,6 +17,7 @@
                 <div class="btw_con">
                     {% if is_granted('ROLE_ADMIN') %}
                     <form action="/addGood" target="_blank">
+                        <button type="button" id ="buy-button"  class="btw_use"  >ДобавитьJS лот</button>
                         <button class="btw_use"  >Добавить лот</button>
                     </form>
                     {% endif %}
@@ -58,10 +61,39 @@
             </div>
             </div>
         </div>
+    <div class="popup__bg" id="buy-dialog">
+
+            <img src="style/images/close_img.png" alt="" class="close__popup">
+
+            {{ form_start(goodForm, {
+                'attr': {'class':'popup'}}) }}
+            <div class="container2">
+                <h1>Добавить товар</h1><hr>
+
+                {{ form_row(goodForm.name, {
+                    'attr': {'class':'label__text  poleinput'}
+                }) }}
+                {{ form_row(goodForm.cost, {
+
+                    'attr': {'class':'label__text  poleinput'}
+                }) }}
+                {{ form_row(goodForm.last_date, {
+                    'attr': {'class':'label__text  poleinput'}
+                }) }}
+
+
+                <button class="btw_use" type="submit">Загрузить</button>
+
+            </div>
+
+            {{ form_end(goodForm) }}
 
 
 
+    </div>
 
+
+    <script src="/js/popup.js"></script>
 
 
 
