@@ -61,7 +61,7 @@ class CheckGoodsCommand extends Command
                     'status' => '1'
                 ]);
                 //если нашли
-                if (!is_null($lastTransaction)) {
+                if ($lastTransaction) {
                     $BillUser = $lastTransaction->getUserId()->getBalance();
 
                     // устанавливаем владельцем товара пользователя из транзакции
@@ -69,12 +69,12 @@ class CheckGoodsCommand extends Command
 
                     // вычитаем сумму платежа из реального баланса
                     $lastTransaction->getUserId()->setBalance($BillUser - $lastTransaction->getPay());
-                    $this->addTr->userRepository->add($lastTransaction->getUserId(), true);
+                    $this->userRepository->add($lastTransaction->getUserId(), true);
                 }else{
                     $good->setStatus('2');
                 }
                 //завершаем торги по товару
-                $good->setStatus('2');
+
                 $this->goodsRepository->add($good, true);
             }
         }
