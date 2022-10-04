@@ -16,6 +16,9 @@ class AddGoodType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
+        $date = new \DateTime();
+        $date->modify('+1 day');
+
         $builder
        //     ->add('images', FileType::class)
             ->add('name')
@@ -27,6 +30,10 @@ class AddGoodType extends AbstractType
                 ])
             ->add('last_date', DateType::class,[
                 'widget' => 'single_text',
+                'data'   => $date,
+                'attr'   => [
+                    'min' => $date->format('Y-m-d')
+                ]
             ])
 
         ;
