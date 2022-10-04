@@ -20,14 +20,14 @@ class AddGoodType extends AbstractType
        //     ->add('images', FileType::class)
             ->add('name')
             ->add('cost', IntegerType::class, [
-                    'constraints' => [
-                        new Length([
+                    'attr' => [
                         'min' => 100,
                         'max' => 100000,
-                        ]),
-                    ],
+                    ]
                 ])
-            ->add('last_date', DateType::class)
+            ->add('last_date', DateType::class,[
+                'widget' => 'single_text',
+            ])
 
         ;
     }
