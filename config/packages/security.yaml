@@ -41,7 +41,7 @@ security:
 
             - { path: ^/(users|addGood), roles: ROLE_ADMIN }
             - { path: ^/(login|register), roles: PUBLIC_ACCESS  }
-            - { path: ^/(goods_list|good|user), roles: ROLE_USER }
+            - { path: ^/(|good|user), roles: ROLE_USER }
 
 when@test:
     security:

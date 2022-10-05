@@ -16,10 +16,10 @@
                 <hr>
                 <div class="btw_con">
                     {% if is_granted('ROLE_ADMIN') %}
-                    <form action="/addGood" target="_blank">
-                        <button type="button" id ="buy-button"  class="btw_use"  >ДобавитьJS лот</button>
-                        <button class="btw_use"  >Добавить лот</button>
-                    </form>
+
+                        <button type="button" id ="buy-button"  class="btw_use"  >Добавить лот (popup)</button>
+
+
                     {% endif %}
                 </div>
 
@@ -67,8 +67,12 @@
 
             {{ form_start(goodForm, {
                 'attr': {'class':'popup'}}) }}
-            <div class="container2">
+            <div class="container">
                 <h1>Добавить товар</h1><hr>
+
+                {{ form_row(goodForm.images, {
+                    'attr': {'class':'label__text  poleinput'}
+                }) }}
 
                 {{ form_row(goodForm.name, {
                     'attr': {'class':'label__text  poleinput'}

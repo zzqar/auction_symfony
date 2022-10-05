@@ -12,7 +12,7 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class ConferenceController extends AbstractController
 {
-    #[Route('/goods_list', name: 'app_conference')]
+    #[Route('/', name: 'app_conference')]
     public function index(GoodsRepository $goodsRepository,Request $request): Response
     {
         $goods = $goodsRepository->findAll();
