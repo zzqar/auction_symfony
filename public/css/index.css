@@ -19,12 +19,21 @@ h1, h2, h3, h4, h5, h6 {
     margin: 0 auto;
 }
 
+
+
 .intro{
     width: 100%;
     height: 50vh;
     background: url("../images/1.png") center no-repeat;
-    background-size: cover;
-}   
+
+}
+
+.gif{
+
+
+
+    background: url("../images/2.gif") center no-repeat;
+}
 
 .header{
     padding-top: 15px;

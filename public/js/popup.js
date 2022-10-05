@@ -20,8 +20,41 @@ document.addEventListener ('DOMContentLoaded',() => {
 
     document.addEventListener('click', (e) => {
       if (e.target === popupBG){
+
         popupBG.classList.remove("active");
         popup.classList.remove("active");
       }
-    })
+    });
+
+
+
+    let backgroundIntro = document.querySelector("#intro_head");
+    let flag = true;
+
+    backgroundIntro.addEventListener("click", (e) =>{
+
+        e.preventDefault();
+
+        if(flag){
+            flag = false;
+            backgroundIntro.classList.add("gif");
+
+            setTimeout(() => { flag = true; }, 1000)
+            setTimeout(() => {
+                backgroundIntro.classList.remove("gif");
+            }, 650);
+
+
+
+        }
+
+    });
+
+
+
+
+
+
+
+
 })
