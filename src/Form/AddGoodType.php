@@ -22,7 +22,17 @@ class AddGoodType extends AbstractType
         $date->modify('+1 day');
 
         $builder
-            ->add('images', FileType::class)
+            ->add('images', FileType::class, [
+
+                // неотображенное означает, что это поле не ассоциировано ни с одним свойством сущности
+                'mapped' => false,
+
+                // сделайте его необязательным, чтобы вам не нужно было повторно загружать PDF-файл
+                // каждый раз, когда будете редактировать детали Product
+                'required' => false,
+
+
+            ])
             ->add('name'  )
             ->add('cost', IntegerType::class, [
                     'attr' => [
