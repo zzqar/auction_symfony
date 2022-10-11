@@ -3,16 +3,13 @@
 namespace App\Form;
 
 use App\Entity\Goods;
-use Doctrine\DBAL\Types\StringType;
 use Symfony\Component\Form\AbstractType;
-use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\DateType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Validator\Constraints\File;
 use Symfony\Component\Form\Extension\Core\Type\IntegerType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
-use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
 class AddGoodType extends AbstractType
 {
@@ -22,7 +19,7 @@ class AddGoodType extends AbstractType
         $date->modify('+1 day');
 
         $builder
-            ->add('images', FileType::class, [
+            ->add('images',FileType::class , [
 
                 // неотображенное означает, что это поле не ассоциировано ни с одним свойством сущности
                 'mapped' => false,
@@ -30,6 +27,17 @@ class AddGoodType extends AbstractType
                 // сделайте его необязательным, чтобы вам не нужно было повторно загружать PDF-файл
                 // каждый раз, когда будете редактировать детали Product
                 'required' => false,
+                'constraints' => [
+                    new File([
+
+                        'mimeTypes' =>[
+                            'image/png',
+                            'image/jpeg',
+
+                        ],
+                        'mimeTypesMessage' => 'Поддерживается только загрузка изображений!',
+                    ])
+                ],
 
 
             ])

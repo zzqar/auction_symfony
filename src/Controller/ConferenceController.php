@@ -5,6 +5,7 @@ namespace App\Controller;
 use App\Entity\Goods;
 use App\Form\AddGoodType;
 use App\Repository\GoodsRepository;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +14,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class ConferenceController extends AbstractController
 {
-    #[Route('/', name: 'app_conference')]
+    #[Route('/', name: 'app_conference' ,methods: ['GET','POST'])]
     public function index(GoodsRepository $goodsRepository,Request $request, SluggerInterface $slugger): Response
     {
         $goods = $goodsRepository->findAll();
@@ -25,8 +26,22 @@ class ConferenceController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid())
         {
+            $date = date('Y-m-d');
+            $date = date("Y-m-d", strtotime($date.'+ 1 days'));
+
+            $last_date= $form->get('last_date')->getNormData()->format('Y-m-d');
+
+            if($form->get('cost')->getNormData() <= 100 or $last_date < $date  ){
+                $error = 'Наушенны форматы в форме добавления товаров';
+
+                return $this->redirectToRoute('app_conference',[
+                    'error' => $error,
+                ]);
+            }
+
             /** @var UploadedFile $imageFile */
             $imageFile = $form->get('images')->getData();
+
 
             if ($imageFile) {
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
@@ -44,8 +59,7 @@ class ConferenceController extends AbstractController
                     // ... разберитесь с исключением, если что-то случится во время загрузки файла
                 }
 
-                // обновляет свойство 'brochureFilename' для сохранения имени PDF-файла,
-                // а не его содержания
+
                 $good->setImages($newFilename);
             }else{
                 $good->setImages('no_icon.png');
@@ -57,11 +71,17 @@ class ConferenceController extends AbstractController
             return $this->redirectToRoute('app_conference'  );
         }
 
+        $error =  [];
+        if( !empty($_GET['error']) ){
+            $error = $_GET['error'];
+        }
+
 
         return $this->render('conference/index.html.twig', [
             'goods' =>  $goods,
             'user' => $user,
             'goodForm' => $form->createView(),
+            'error' => $error,
         ]);
     }
 

@@ -2,9 +2,9 @@
 
 {% block title %}Аукцион{% endblock %}
 {% block stylesheets %}
+    <link rel="stylesheet" href="/css/popup.css">
     <link rel="stylesheet" href="/css/tabel.css">
     <link rel="stylesheet" href="/css/auction.css">
-    <link rel="stylesheet" href="/css/popup.css">
     <link rel="stylesheet" type="text/css" href="/css/style.css">
 {% endblock %}
 {% block main %}
@@ -14,6 +14,9 @@
     <div class="main">
             <div class="contant">
                 <div class="contant_name">АУКЦИОН</div>
+                {% if error %}
+                    <p class="msg">{{ error }}</p>
+                {% endif %}
                 <hr>
                 <div class="btw_con">
                     {% if is_granted('ROLE_ADMIN') %}
@@ -22,6 +25,7 @@
 
 
                     {% endif %}
+
                 </div>
 
             <div class="goods">
